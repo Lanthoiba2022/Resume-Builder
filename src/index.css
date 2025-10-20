@@ -100,6 +100,282 @@ All colors MUST be HSL.
       radial-gradient(circle at 80% 20%, rgba(144, 224, 239, 0.1) 0%, transparent 50%),
       radial-gradient(circle at 40% 40%, rgba(212, 163, 115, 0.03) 0%, transparent 50%);
     background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Grid Background Patterns */
+  .grid-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(3, 4, 94, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(3, 4, 94, 0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: grid-move 30s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .grid-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 25% 25%, rgba(3, 4, 94, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(144, 224, 239, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Animated Grid Lines */
+  .animated-grid {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animated-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(3, 4, 94, 0.1) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(3, 4, 94, 0.1) 2px, transparent 2px);
+    background-size: 40px 40px;
+    animation: grid-pulse 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating Geometric Elements */
+  .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(3, 4, 94, 0.15), rgba(144, 224, 239, 0.2));
+    animation: float-gentle 20s infinite ease-in-out;
+  }
+
+  .floating-circle:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .floating-circle:nth-child(2) {
+    width: 80px;
+    height: 80px;
+    top: 60%;
+    right: 15%;
+    animation-delay: -5s;
+  }
+
+  .floating-circle:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    bottom: 30%;
+    left: 20%;
+    animation-delay: -10s;
+  }
+
+  .floating-square {
+    position: absolute;
+    background: linear-gradient(45deg, rgba(144, 224, 239, 0.1), rgba(3, 4, 94, 0.15));
+    animation: rotate-slow 25s infinite linear;
+  }
+
+  .floating-square:nth-child(1) {
+    width: 50px;
+    height: 50px;
+    top: 30%;
+    right: 20%;
+    animation-delay: 0s;
+  }
+
+  .floating-square:nth-child(2) {
+    width: 40px;
+    height: 40px;
+    bottom: 40%;
+    left: 10%;
+    animation-delay: -8s;
+  }
+
+  /* Grid Dots Pattern */
+  .grid-dots {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-dots::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(3, 4, 94, 0.2) 1px, transparent 0);
+    background-size: 30px 30px;
+    animation: dots-move 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Section Content Positioning */
+  .section-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Keyframe Animations */
+  @keyframes grid-move {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(60px, 60px);
+    }
+  }
+
+  @keyframes grid-pulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes float-gentle {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-15px) rotate(90deg);
+    }
+    50% {
+      transform: translateY(-30px) rotate(180deg);
+    }
+    75% {
+      transform: translateY(-15px) rotate(270deg);
+    }
+  }
+
+  @keyframes rotate-slow {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dots-move {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(30px, 30px);
+    }
+  }
+
+  /* Mixed Dot and Grid Pattern for Hero */
+  .hero-grid {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      /* Grid lines */
+      linear-gradient(rgba(3, 4, 94, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(3, 4, 94, 0.08) 1px, transparent 1px),
+      /* Dots pattern */
+      radial-gradient(circle at 1px 1px, rgba(3, 4, 94, 0.15) 1px, transparent 0);
+    background-size: 80px 80px, 80px 80px, 40px 40px;
+    animation: hero-mixed-move 40s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-grid::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(3, 4, 94, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(144, 224, 239, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(212, 163, 115, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes hero-mixed-move {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(80px, 80px);
+    }
+  }
+
+  /* Performance optimizations */
+  .grid-bg *,
+  .animated-grid *,
+  .floating-elements * {
+    will-change: transform, opacity;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .grid-bg::before,
+    .animated-grid::before,
+    .grid-dots::before,
+    .hero-grid::before {
+      animation: none !important;
+    }
+    
+    .floating-circle,
+    .floating-square {
+      animation: none !important;
+      opacity: 0.5;
+    }
   }
 }
 
