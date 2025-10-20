@@ -3,17 +3,34 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Mail, Phone, MapPin, Linkedin, Globe, CheckCircle2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import { useCallback } from "react";
+import { pdf } from "@react-pdf/renderer";
+import ResumePdf from "./ResumePdf";
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
 }
 
 const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
-  const handleExport = () => {
-    toast.success("Resume exported successfully!", {
-      description: "Your resume has been downloaded as PDF",
-    });
-  };
+  const handleExport = useCallback(async () => {
+    try {
+      const instance = <ResumePdf data={resumeData} />;
+      const blob = await pdf(instance).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast.success("Resume exported successfully!", {
+        description: "Your resume PDF has been downloaded.",
+      });
+    } catch (e) {
+      toast.error("Failed to export PDF");
+    }
+  }, [resumeData]);
 
   const normalizeUrl = (url?: string) => {
     if (!url) return "";
