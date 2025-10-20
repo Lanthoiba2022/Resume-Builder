@@ -99,7 +99,7 @@ The app uses a dedicated React‑PDF document (`src/components/ResumePdf.tsx`) t
 - Collaboration: version history, branches, shareable links, role-based access
 - QA & reliability: unit tests, visual regression tests, E2E flows across browsers
 
-### Mermaid – User Flow
+### User Flow
 ```mermaid
 flowchart TD
     A[Landing / Index] --> B[Open Builder]
