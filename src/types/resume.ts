@@ -59,4 +59,7 @@ export interface ResumeData {
   projects: Project[];
   skills: Skills;
   achievements: Achievement[];
+  platformConnections?: string[];
+  lastSyncTime?: string;
+  autoSyncEnabled?: boolean;
 }
