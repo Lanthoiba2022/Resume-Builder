@@ -117,45 +117,57 @@ const Builder = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Resume Builder</h1>
-          <p className="text-sm md:text-base text-muted-foreground">
-            Build your professional resume with integrated platform sync
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            <span className="palette-gradient-text">Resume Builder</span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl">
+            Build your professional resume with integrated platform sync and real-time updates
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="editor" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4 mb-8 palette-card p-1">
+            <TabsTrigger value="editor" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground transition-all duration-300">
               <FileText className="h-4 w-4" />
               Resume Editor
             </TabsTrigger>
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground transition-all duration-300">
               <BarChart3 className="h-4 w-4" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="integrations" className="flex items-center gap-2">
+            <TabsTrigger value="integrations" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground transition-all duration-300">
               <Zap className="h-4 w-4" />
               Platform Integration
             </TabsTrigger>
-            <TabsTrigger value="activities" className="flex items-center gap-2">
+            <TabsTrigger value="activities" className="flex items-center gap-2 data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground transition-all duration-300">
               <Activity className="h-4 w-4" />
               Activity Sync
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="editor" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
-                <div className="mb-4 text-sm font-medium text-muted-foreground">Editor</div>
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div className="flex min-h-[70vh] flex-col palette-card rounded-xl p-6">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <FileText className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="text-lg font-semibold text-foreground">Editor</div>
+                </div>
                 <div className="flex-1 min-h-0">
                   <ResumeEditor resumeData={resumeData} setResumeData={setResumeData} />
                 </div>
               </div>
-              <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="text-sm font-medium text-muted-foreground">Preview</div>
-                  <div className="text-xs text-muted-foreground">A4 · 1 column</div>
+              <div className="flex min-h-[70vh] flex-col palette-card rounded-xl p-6">
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+                      <Activity className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="text-lg font-semibold text-foreground">Preview</div>
+                  </div>
+                  <div className="text-xs text-muted-foreground bg-muted/50 px-3 py-1 rounded-full">A4 · 1 column</div>
                 </div>
                 <div className="flex-1 min-h-0">
                   <ResumePreview resumeData={resumeData} />

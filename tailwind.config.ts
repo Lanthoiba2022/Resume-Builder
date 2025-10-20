@@ -56,6 +56,9 @@ export default {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-hero": "var(--gradient-hero)",
         "gradient-subtle": "var(--gradient-subtle)",
+        "gradient-card": "var(--gradient-card)",
+        "gradient-nav": "var(--gradient-nav)",
+        "gradient-accent": "var(--gradient-accent)",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],

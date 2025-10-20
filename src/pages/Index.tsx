@@ -37,40 +37,57 @@ const Index = () => {
       <section className="container mx-auto px-4 py-20">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-muted-foreground mb-6">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary mb-8 backdrop-blur-sm">
+              <Sparkles className="h-4 w-4 text-primary" />
               <span>Trusted, ATS-friendly, recruiter-approved</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Build your resume with connected platforms
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+              <span className="palette-gradient-text">Build your resume</span>
+              <br />
+              <span className="text-foreground">with connected platforms</span>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+            <p className="mt-4 text-xl text-muted-foreground max-w-2xl leading-relaxed">
               Seamlessly integrate with GitHub, LinkedIn, Coursera, and more to automatically sync your achievements, projects, and learning milestones. Build a comprehensive professional profile that updates in real-time.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Link to="/builder">
-                <Button size="lg" className="px-7">
+                <Button size="lg" className="palette-button px-8 py-4 text-lg font-semibold">
                   Start building
                 </Button>
               </Link>
               <a href="#features">
-                <Button size="lg" variant="outline" className="px-7">
+                <Button size="lg" variant="outline" className="px-8 py-4 text-lg font-semibold border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all duration-300">
                   See features
                 </Button>
               </a>
             </div>
-            <div className="mt-8 grid grid-cols-3 gap-6 text-sm text-muted-foreground">
-              <div>
-                <div className="font-semibold text-foreground">ATS-ready</div>
-                <div>Optimized typography and spacing</div>
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="palette-card p-6 rounded-xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <Shield className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="font-bold text-foreground">ATS-ready</div>
+                </div>
+                <div className="text-sm text-muted-foreground">Optimized typography and spacing</div>
               </div>
-              <div>
-                <div className="font-semibold text-foreground">Verified entries</div>
-                <div>Highlight what matters with badges</div>
+              <div className="palette-card p-6 rounded-xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="font-bold text-foreground">Verified entries</div>
+                </div>
+                <div className="text-sm text-muted-foreground">Highlight what matters with badges</div>
               </div>
-              <div>
-                <div className="font-semibold text-foreground">One-click export</div>
-                <div>PDF and clean print layout</div>
+              <div className="palette-card p-6 rounded-xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <Zap className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="font-bold text-foreground">One-click export</div>
+                </div>
+                <div className="text-sm text-muted-foreground">PDF and clean print layout</div>
               </div>
             </div>
           </div>

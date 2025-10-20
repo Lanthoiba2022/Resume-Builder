@@ -290,17 +290,19 @@ const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: Pla
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold flex items-center gap-2">
-            <Zap className="h-6 w-6 text-primary" />
-            Platform Integration
+          <h2 className="text-3xl font-bold flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-gradient-primary palette-glow flex items-center justify-center">
+              <Zap className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <span className="palette-gradient-text">Platform Integration</span>
           </h2>
-          <p className="text-muted-foreground">
-            Connect your accounts to automatically sync activities and update your resume
+          <p className="text-lg text-muted-foreground max-w-2xl">
+            Connect your accounts to automatically sync activities and update your resume in real-time
           </p>
         </div>
-        <Button onClick={handleSync} disabled={isSyncing} className="flex items-center gap-2">
+        <Button onClick={handleSync} disabled={isSyncing} className="palette-button flex items-center gap-2 px-6 py-3">
           <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : 'Sync All'}
         </Button>
@@ -336,19 +338,19 @@ const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: Pla
               }
 
               return (
-                <Card key={`${platform.type}-${connection?.status || 'disconnected'}`} className="p-6">
+                <Card key={`${platform.type}-${connection?.status || 'disconnected'}`} className="palette-card p-6 hover:scale-[1.02] transition-all duration-300">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-lg ${platform.color} flex items-center justify-center text-white text-xl`}>
+                    <div className="flex items-center gap-6">
+                      <div className={`w-16 h-16 rounded-xl ${platform.color} flex items-center justify-center text-white text-2xl palette-shadow`}>
                         {platform.icon}
                       </div>
                       <div>
-                        <h3 className="font-semibold">{platform.name}</h3>
-                        <p className="text-sm text-muted-foreground">{platform.description}</p>
+                        <h3 className="text-xl font-bold text-foreground mb-2">{platform.name}</h3>
+                        <p className="text-muted-foreground mb-3">{platform.description}</p>
                         {isConnected && (
-                          <div className="flex items-center gap-2 mt-1">
+                          <div className="flex items-center gap-2">
                             {getStatusIcon(connection?.status || 'disconnected')}
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-sm text-muted-foreground">
                               Last sync: {new Date(connection?.lastSync || '').toLocaleDateString()}
                             </span>
                           </div>
@@ -377,7 +379,7 @@ const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: Pla
                             handleConnect(platform);
                           }}
                           disabled={connectingPlatform === platform.type}
-                          className="flex items-center gap-2"
+                          className="palette-button flex items-center gap-2 px-6 py-3"
                           type="button"
                         >
                           {connectingPlatform === platform.type ? (
