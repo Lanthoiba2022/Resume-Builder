@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import IntegrationShowcase from "@/components/IntegrationShowcase";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -41,10 +42,10 @@ const Index = () => {
               <span>Trusted, ATS-friendly, recruiter-approved</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Craft a resume that opens doors
+              Build your resume with connected platforms
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-xl">
-              Build a credible, modern resume with structured sections, clear hierarchy, and instant export. No noisy gradients — just professional design.
+              Seamlessly integrate with GitHub, LinkedIn, Coursera, and more to automatically sync your achievements, projects, and learning milestones. Build a comprehensive professional profile that updates in real-time.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link to="/builder">
@@ -101,6 +102,11 @@ const Index = () => {
             </Card>
           </div>
         </div>
+      </section>
+
+      {/* Platform Integration Showcase */}
+      <section id="integrations" className="container mx-auto px-4 py-16">
+        <IntegrationShowcase />
       </section>
 
       {/* Value props */}

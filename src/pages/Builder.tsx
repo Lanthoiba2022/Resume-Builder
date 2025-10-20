@@ -2,7 +2,15 @@ import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import ResumeEditor from "@/components/ResumeEditor";
 import ResumePreview from "@/components/ResumePreview";
+import PlatformIntegration from "@/components/PlatformIntegration";
+import ActivitySync from "@/components/ActivitySync";
+import IntegrationDashboard from "@/components/IntegrationDashboard";
+import SyncIndicator from "@/components/SyncIndicator";
 import { ResumeData } from "@/types/resume";
+import { IntegrationSettings } from "@/types/platform";
+import { usePlatformIntegration } from "@/hooks/usePlatformIntegration";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FileText, Zap, Activity, BarChart3 } from "lucide-react";
 
 const Builder = () => {
   const [resumeData, setResumeData] = useState<ResumeData>({
@@ -89,32 +97,112 @@ const Builder = () => {
     ],
   });
 
+  const {
+    connections,
+    activities,
+    settings,
+    isSyncing,
+    lastSyncTime,
+    handleSync,
+    addSingleActivity,
+    addBulkActivities,
+    connectPlatform,
+    disconnectPlatform,
+    updateSettings
+  } = usePlatformIntegration({ resumeData, setResumeData });
+
+  const [activeTab, setActiveTab] = useState("editor");
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Resume Builder</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Edit details and preview your resume live.</p>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Build your professional resume with integrated platform sync
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
-            <div className="mb-4 text-sm font-medium text-muted-foreground">Editor</div>
-            <div className="flex-1 min-h-0">
-              <ResumeEditor resumeData={resumeData} setResumeData={setResumeData} />
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsTrigger value="editor" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Resume Editor
+            </TabsTrigger>
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="integrations" className="flex items-center gap-2">
+              <Zap className="h-4 w-4" />
+              Platform Integration
+            </TabsTrigger>
+            <TabsTrigger value="activities" className="flex items-center gap-2">
+              <Activity className="h-4 w-4" />
+              Activity Sync
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="editor" className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
+                <div className="mb-4 text-sm font-medium text-muted-foreground">Editor</div>
+                <div className="flex-1 min-h-0">
+                  <ResumeEditor resumeData={resumeData} setResumeData={setResumeData} />
+                </div>
+              </div>
+              <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="text-sm font-medium text-muted-foreground">Preview</div>
+                  <div className="text-xs text-muted-foreground">A4 · 1 column</div>
+                </div>
+                <div className="flex-1 min-h-0">
+                  <ResumePreview resumeData={resumeData} />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex min-h-[70vh] flex-col rounded-lg border bg-card p-4 md:p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="text-sm font-medium text-muted-foreground">Preview</div>
-              <div className="text-xs text-muted-foreground">A4 · 1 column</div>
+          </TabsContent>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <IntegrationDashboard
+                  connections={connections}
+                  activities={activities}
+                  isSyncing={isSyncing}
+                  lastSyncTime={lastSyncTime}
+                  onSync={handleSync}
+                />
+              </div>
+              <div>
+                <SyncIndicator
+                  isSyncing={isSyncing}
+                  lastSyncTime={lastSyncTime}
+                  connectionsCount={connections.length}
+                  activitiesCount={activities.length}
+                  onManualSync={handleSync}
+                />
+              </div>
             </div>
-            <div className="flex-1 min-h-0">
-              <ResumePreview resumeData={resumeData} />
-            </div>
-          </div>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="integrations" className="space-y-6">
+            <PlatformIntegration
+              onActivitySync={addBulkActivities}
+              settings={settings}
+              onSettingsChange={updateSettings}
+            />
+          </TabsContent>
+
+          <TabsContent value="activities" className="space-y-6">
+            <ActivitySync
+              activities={activities}
+              onActivitySelect={addSingleActivity}
+              onBulkAdd={addBulkActivities}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
