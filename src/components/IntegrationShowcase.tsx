@@ -22,42 +22,42 @@ const IntegrationShowcase = () => {
   const platforms = [
     {
       name: "GitHub",
-      icon: "🐙",
+      icon: "/PlatformImages/github.png",
       color: "bg-gray-900",
       description: "Sync repositories, contributions, and projects",
       features: ["Repository sync", "Contribution tracking", "Project showcase"]
     },
     {
       name: "LinkedIn",
-      icon: "💼",
+      icon: "/PlatformImages/linkedin.png",
       color: "bg-blue-600",
       description: "Import professional experience and certifications",
       features: ["Experience sync", "Certification import", "Skill verification"]
     },
     {
       name: "Coursera",
-      icon: "🎓",
+      icon: "/PlatformImages/blueCoursera.svg",
       color: "bg-blue-500",
       description: "Sync completed courses and certificates",
       features: ["Course completion", "Certificate tracking", "Grade import"]
     },
     {
       name: "LeetCode",
-      icon: "🧮",
+      icon: "/PlatformImages/leetcode.png",
       color: "bg-orange-500",
       description: "Track coding achievements and contest rankings",
       features: ["Problem solving", "Contest rankings", "Skill assessment"]
     },
     {
       name: "Devpost",
-      icon: "🏆",
+      icon: "/PlatformImages/devpost.png",
       color: "bg-green-600",
       description: "Import hackathon wins and project submissions",
       features: ["Hackathon tracking", "Project submissions", "Award recognition"]
     },
     {
       name: "Kaggle",
-      icon: "📊",
+      icon: "/PlatformImages/kaggle.png",
       color: "bg-purple-600",
       description: "Sync data science competitions and achievements",
       features: ["Competition tracking", "Dataset contributions", "Notebook sharing"]
@@ -144,8 +144,12 @@ const IntegrationShowcase = () => {
           {platforms.map((platform, index) => (
             <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-center gap-4 mb-4">
-                <div className={`w-12 h-12 rounded-lg ${platform.color} flex items-center justify-center text-white text-xl`}>
-                  {platform.icon}
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <img 
+                    src={platform.icon} 
+                    alt={`${platform.name} logo`}
+                    className="w-12 h-12 object-contain"
+                  />
                 </div>
                 <div>
                   <h3 className="font-semibold">{platform.name}</h3>

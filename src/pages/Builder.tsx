@@ -201,9 +201,13 @@ const Builder = () => {
 
           <TabsContent value="integrations" className="space-y-6">
             <PlatformIntegration
-              onActivitySync={addBulkActivities}
+              connections={connections}
+              activities={activities}
               settings={settings}
               onSettingsChange={updateSettings}
+              connectPlatform={connectPlatform}
+              disconnectPlatform={disconnectPlatform}
+              onActivitySync={addBulkActivities}
             />
           </TabsContent>
 

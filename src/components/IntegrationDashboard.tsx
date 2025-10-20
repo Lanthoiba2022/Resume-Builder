@@ -78,10 +78,11 @@ const IntegrationDashboard = ({
     }
   };
 
-  const getTimeAgo = (timestamp: Date | null) => {
+  const getTimeAgo = (timestamp: Date | null | string) => {
     if (!timestamp) return 'Never';
+    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
     const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - timestamp.getTime()) / (1000 * 60));
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
     
     if (diffInMinutes < 1) return 'Just now';
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
@@ -102,10 +103,6 @@ const IntegrationDashboard = ({
             Monitor your platform connections and activity sync status
           </p>
         </div>
-        <Button onClick={onSync} disabled={isSyncing} className="flex items-center gap-2">
-          <Activity className="h-4 w-4" />
-          {isSyncing ? 'Syncing...' : 'Sync All'}
-        </Button>
       </div>
 
       {/* Overview Stats */}
@@ -166,13 +163,23 @@ const IntegrationDashboard = ({
           {connections.map((connection) => (
             <div key={connection.id} className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                  {connection.platform.charAt(0).toUpperCase()}
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <img 
+                    src={`/PlatformImages/${connection.platform}.png`} 
+                    alt={`${connection.name} logo`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      // Fallback to SVG for Coursera
+                      if (connection.platform === 'coursera') {
+                        e.currentTarget.src = '/PlatformImages/blueCoursera.svg';
+                      }
+                    }}
+                  />
                 </div>
                 <div>
                   <p className="font-medium">{connection.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    Last sync: {getTimeAgo(new Date(connection.lastSync))}
+                    Last sync: {getTimeAgo(connection.lastSync)}
                   </p>
                 </div>
               </div>

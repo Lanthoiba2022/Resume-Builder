@@ -27,16 +27,20 @@ import {
 import { PlatformConnection, PlatformActivity, PlatformConfig, IntegrationSettings } from "@/types/platform";
 
 interface PlatformIntegrationProps {
-  onActivitySync: (activities: PlatformActivity[]) => void;
+  connections: PlatformConnection[];
+  activities: PlatformActivity[];
   settings: IntegrationSettings;
   onSettingsChange: (settings: IntegrationSettings) => void;
+  connectPlatform: (platformType: string) => void;
+  disconnectPlatform: (connectionId: string) => void;
+  onActivitySync: (activities: PlatformActivity[]) => void;
 }
 
 const platformConfigs: PlatformConfig[] = [
   {
     name: "GitHub",
     type: "github",
-    icon: "🐙",
+    icon: "/PlatformImages/github.png",
     color: "bg-gray-900",
     description: "Sync your repositories, contributions, and projects",
     authUrl: "/auth/github",
@@ -48,7 +52,7 @@ const platformConfigs: PlatformConfig[] = [
   {
     name: "LinkedIn",
     type: "linkedin",
-    icon: "💼",
+    icon: "/PlatformImages/linkedin.png",
     color: "bg-blue-600",
     description: "Import professional experience and certifications",
     authUrl: "/auth/linkedin",
@@ -60,7 +64,7 @@ const platformConfigs: PlatformConfig[] = [
   {
     name: "Coursera",
     type: "coursera",
-    icon: "🎓",
+    icon: "/PlatformImages/blueCoursera.svg",
     color: "bg-blue-500",
     description: "Sync completed courses and certificates",
     authUrl: "/auth/coursera",
@@ -72,7 +76,7 @@ const platformConfigs: PlatformConfig[] = [
   {
     name: "LeetCode",
     type: "leetcode",
-    icon: "🧮",
+    icon: "/PlatformImages/leetcode.png",
     color: "bg-orange-500",
     description: "Track coding achievements and contest rankings",
     authUrl: "/auth/leetcode",
@@ -84,7 +88,7 @@ const platformConfigs: PlatformConfig[] = [
   {
     name: "Devpost",
     type: "devpost",
-    icon: "🏆",
+    icon: "/PlatformImages/devpost.png",
     color: "bg-green-600",
     description: "Import hackathon wins and project submissions",
     authUrl: "/auth/devpost",
@@ -96,7 +100,7 @@ const platformConfigs: PlatformConfig[] = [
   {
     name: "Kaggle",
     type: "kaggle",
-    icon: "📊",
+    icon: "/PlatformImages/kaggle.png",
     color: "bg-purple-600",
     description: "Sync data science competitions and achievements",
     authUrl: "/auth/kaggle",
@@ -107,141 +111,33 @@ const platformConfigs: PlatformConfig[] = [
   }
 ];
 
-const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: PlatformIntegrationProps) => {
-  const [connections, setConnections] = useState<PlatformConnection[]>([]);
-  const [activities, setActivities] = useState<PlatformActivity[]>([]);
+const PlatformIntegration = ({ 
+  connections,
+  activities: initialActivities,
+  settings, 
+  onSettingsChange,
+  connectPlatform,
+  disconnectPlatform,
+  onActivitySync
+}: PlatformIntegrationProps) => {
+  const [activities, setActivities] = useState<PlatformActivity[]>(initialActivities);
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncProgress, setSyncProgress] = useState(0);
   const [connectingPlatform, setConnectingPlatform] = useState<string | null>(null);
 
-  // Mock data for demonstration
   useEffect(() => {
-    const mockConnections: PlatformConnection[] = [
-      {
-        id: "1",
-        platform: "github",
-        name: "GitHub",
-        status: "connected",
-        lastSync: "2024-01-15T10:30:00Z",
-        userId: "user123"
-      },
-      {
-        id: "2",
-        platform: "linkedin",
-        name: "LinkedIn",
-        status: "connected",
-        lastSync: "2024-01-15T09:15:00Z",
-        userId: "user123"
-      },
-      {
-        id: "3",
-        platform: "coursera",
-        name: "Coursera",
-        status: "disconnected",
-        lastSync: "2024-01-10T14:20:00Z",
-        userId: "user123"
-      }
-    ];
-
-    const mockActivities: PlatformActivity[] = [
-      {
-        id: "1",
-        platform: "github",
-        title: "AI-Powered Task Manager",
-        description: "Full-stack application with React, Node.js, and OpenAI API",
-        date: "2024-01-10",
-        type: "project",
-        verified: true,
-        autoAddToResume: true,
-        metadata: { stars: 15, language: "JavaScript" }
-      },
-      {
-        id: "2",
-        platform: "coursera",
-        title: "Machine Learning Specialization",
-        description: "Completed 5-course specialization from Stanford",
-        date: "2024-01-05",
-        type: "course_completion",
-        verified: true,
-        autoAddToResume: true,
-        metadata: { grade: "98%", duration: "6 months" }
-      },
-      {
-        id: "3",
-        platform: "devpost",
-        title: "1st Place - HackMIT 2024",
-        description: "Won first place among 500+ participants",
-        date: "2024-01-08",
-        type: "hackathon_win",
-        verified: true,
-        autoAddToResume: true,
-        metadata: { participants: 500, prize: "$5000" }
-      }
-    ];
-
-    setConnections(mockConnections);
-    setActivities(mockActivities);
-  }, []);
-
-  // Debug effect to monitor connection changes
-  useEffect(() => {
-    console.log('Connections updated:', connections);
-    const courseraConnection = connections.find(conn => conn.platform === 'coursera');
-    console.log('Coursera connection in state:', courseraConnection);
-  }, [connections]);
+    setActivities(initialActivities);
+  }, [initialActivities]);
 
   const handleConnect = async (platform: PlatformConfig) => {
-    console.log('Connecting to platform:', platform.name);
     setConnectingPlatform(platform.type);
-    
-    try {
-      // Simulate connection process with a small delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const newConnection: PlatformConnection = {
-        id: Date.now().toString(),
-        platform: platform.type,
-        name: platform.name,
-        status: "connected",
-        lastSync: new Date().toISOString(),
-        userId: "user123"
-      };
-
-      setConnections(prev => {
-        // Check if connection already exists and is connected
-        const existingConnection = prev.find(conn => conn.platform === platform.type);
-        if (existingConnection && existingConnection.status === 'connected') {
-          console.log('Connection already exists for:', platform.name);
-          return prev;
-        }
-        
-        if (existingConnection) {
-          // Update existing disconnected connection
-          console.log('Updating existing connection for:', platform.name);
-          return prev.map(conn => 
-            conn.platform === platform.type 
-              ? { ...conn, status: 'connected', lastSync: new Date().toISOString() }
-              : conn
-          );
-        }
-        
-        console.log('Adding new connection:', platform.name);
-        return [...prev, newConnection];
-      });
-      
-      // Show success notification
-      if (platform.type === 'coursera') {
-        console.log('Coursera connected successfully!');
-      }
-    } catch (error) {
-      console.error('Connection failed:', error);
-    } finally {
-      setConnectingPlatform(null);
-    }
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    connectPlatform(platform.type);
+    setConnectingPlatform(null);
   };
 
   const handleDisconnect = (connectionId: string) => {
-    setConnections(prev => prev.filter(conn => conn.id !== connectionId));
+    disconnectPlatform(connectionId);
   };
 
   const handleSync = async () => {
@@ -330,35 +226,33 @@ const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: Pla
             {platformConfigs.map((platform) => {
               const connection = connections.find(conn => conn.platform === platform.type);
               const isConnected = connection?.status === 'connected';
-              
-              // Debug logging for Coursera
-              if (platform.type === 'coursera') {
-                console.log('Coursera connection status:', connection);
-                console.log('Coursera isConnected:', isConnected);
-              }
 
               return (
-                <Card key={`${platform.type}-${connection?.status || 'disconnected'}`} className="palette-card p-6 hover:scale-[1.02] transition-all duration-300">
+                <Card key={`${platform.type}-${connection?.id || 'new'}`} className="palette-card p-6 hover:scale-[1.02] transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-6">
-                      <div className={`w-16 h-16 rounded-xl ${platform.color} flex items-center justify-center text-white text-2xl palette-shadow`}>
-                        {platform.icon}
+                      <div className="w-16 h-16 flex items-center justify-center">
+                        <img 
+                          src={platform.icon} 
+                          alt={`${platform.name} logo`}
+                          className="w-16 h-16 object-contain"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-foreground mb-2">{platform.name}</h3>
                         <p className="text-muted-foreground mb-3">{platform.description}</p>
-                        {isConnected && (
+                        {isConnected && connection && (
                           <div className="flex items-center gap-2">
-                            {getStatusIcon(connection?.status || 'disconnected')}
+                            {getStatusIcon(connection.status)}
                             <span className="text-sm text-muted-foreground">
-                              Last sync: {new Date(connection?.lastSync || '').toLocaleDateString()}
+                              Last sync: {new Date(connection.lastSync).toLocaleDateString()}
                             </span>
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      {isConnected ? (
+                      {isConnected && connection ? (
                         <>
                           <Badge variant="secondary" className="flex items-center gap-1">
                             <CheckCircle className="h-3 w-3" />
@@ -367,17 +261,14 @@ const PlatformIntegration = ({ onActivitySync, settings, onSettingsChange }: Pla
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleDisconnect(connection?.id || '')}
+                            onClick={() => handleDisconnect(connection.id)}
                           >
                             Disconnect
                           </Button>
                         </>
                       ) : (
                         <Button
-                          onClick={() => {
-                            console.log('Button clicked for platform:', platform.name, platform.type);
-                            handleConnect(platform);
-                          }}
+                          onClick={() => handleConnect(platform)}
                           disabled={connectingPlatform === platform.type}
                           className="palette-button flex items-center gap-2 px-6 py-3"
                           type="button"
