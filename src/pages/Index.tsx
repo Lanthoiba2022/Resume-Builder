@@ -34,9 +34,17 @@ const Index = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7">
+      <section className="hero-grid container mx-auto px-4 py-20">
+        <div className="floating-elements">
+          <div className="floating-circle"></div>
+          <div className="floating-circle"></div>
+          <div className="floating-circle"></div>
+          <div className="floating-square"></div>
+          <div className="floating-square"></div>
+        </div>
+        <div className="section-content">
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary mb-8 backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-primary" />
               <span>Trusted, ATS-friendly, recruiter-approved</span>
@@ -119,16 +127,20 @@ const Index = () => {
             </Card>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Platform Integration Showcase */}
-      <section id="integrations" className="container mx-auto px-4 py-16">
-        <IntegrationShowcase />
+      <section id="integrations" className="grid-bg container mx-auto px-4 py-16">
+        <div className="section-content">
+          <IntegrationShowcase />
+        </div>
       </section>
 
       {/* Value props */}
-      <section id="features" className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-6">
+      <section id="features" className="animated-grid container mx-auto px-4 py-16">
+        <div className="section-content">
+          <div className="grid md:grid-cols-3 gap-6">
           <Card className="p-6">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center mb-4">
               <RefreshCw className="h-5 w-5 text-primary" />
@@ -150,6 +162,7 @@ const Index = () => {
             <h3 className="text-lg font-semibold">Instant export</h3>
             <p className="text-muted-foreground">Polished PDF in one click, print-optimized.</p>
           </Card>
+        </div>
         </div>
       </section>
 
@@ -175,8 +188,9 @@ const Index = () => {
       </section>
 
       {/* Sample resumes with pointers */}
-      <section id="samples" className="container mx-auto px-4 py-16">
-        <div className="mb-8 text-center">
+      <section id="samples" className="grid-dots container mx-auto px-4 py-16">
+        <div className="section-content">
+          <div className="mb-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold">Sample resumes</h2>
           <p className="mt-2 text-muted-foreground">What makes a resume stand out</p>
         </div>
@@ -247,6 +261,7 @@ const Index = () => {
               </div>
             </Card>
           ))}
+        </div>
         </div>
       </section>
 
