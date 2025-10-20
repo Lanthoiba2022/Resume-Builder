@@ -74,16 +74,15 @@ const NotificationCenter = ({
   return (
     <div className="relative">
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative"
+        className="relative bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300"
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
           <Badge 
-            variant="destructive" 
-            className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center text-xs"
+            className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center text-xs bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold"
           >
             {unreadCount}
           </Badge>
@@ -91,17 +90,27 @@ const NotificationCenter = ({
       </Button>
 
       {isOpen && (
-        <Card className="absolute right-0 top-12 w-80 z-50 shadow-lg border">
-          <div className="p-4 border-b bg-muted/30">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-sm">Notifications</h3>
-              <div className="flex items-center gap-1">
+        <Card className="absolute right-0 top-12 w-96 max-w-[calc(100vw-2rem)] z-50 palette-shadow border border-accent/30 backdrop-blur-xl bg-card/95 overflow-hidden">
+          <div className="p-4 border-b border-accent/20 bg-gradient-to-r from-accent/10 to-secondary/20">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                  <Bell className="h-4 w-4 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg text-foreground truncate">Notifications</h3>
+                {unreadCount > 0 && (
+                  <Badge className="bg-primary text-primary-foreground text-xs px-2 py-1 flex-shrink-0">
+                    {unreadCount}
+                  </Badge>
+                )}
+              </div>
+              <div className="flex items-center gap-1 flex-shrink-0">
                 {unreadCount > 0 && (
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={onMarkAllAsRead}
-                    className="text-xs h-7 px-2"
+                    className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground hover:bg-accent/20 transition-colors whitespace-nowrap"
                   >
                     Mark all read
                   </Button>
@@ -110,7 +119,7 @@ const NotificationCenter = ({
                   variant="ghost"
                   size="sm"
                   onClick={onClearAll}
-                  className="text-xs h-7 px-2"
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground hover:bg-accent/20 transition-colors whitespace-nowrap"
                 >
                   Clear all
                 </Button>
@@ -118,49 +127,54 @@ const NotificationCenter = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
-                  className="h-7 w-7 p-0"
+                  className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground hover:bg-accent/20 transition-colors flex-shrink-0"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
             </div>
           </div>
 
-          <ScrollArea className="h-80">
+          <ScrollArea className="h-80 max-h-[calc(100vh-12rem)]">
             <div className="p-3">
               {notifications.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <Bell className="h-6 w-6 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No notifications</p>
+                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-3">
+                    <Bell className="h-6 w-6 text-accent" />
+                  </div>
+                  <p className="text-sm font-medium">No notifications</p>
+                  <p className="text-xs text-muted-foreground mt-1">You're all caught up!</p>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {notifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`p-3 rounded-md border cursor-pointer transition-all duration-200 hover:bg-muted/50 ${
+                      className={`p-3 rounded-lg border cursor-pointer transition-all duration-300 hover:scale-[1.005] group ${
                         notification.read 
-                          ? 'bg-background border-border' 
-                          : 'bg-primary/5 border-primary/20'
+                          ? 'bg-card/50 border-accent/20 hover:bg-card/80' 
+                          : 'bg-gradient-to-r from-primary/5 to-accent/5 border-primary/30 hover:from-primary/10 hover:to-accent/10'
                       }`}
                       onClick={() => onMarkAsRead(notification.id)}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="mt-0.5">
-                          {getNotificationIcon(notification.type)}
+                        <div className="mt-0.5 flex-shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-accent/20 flex items-center justify-center">
+                            {getNotificationIcon(notification.type)}
+                          </div>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <p className="font-medium text-sm text-foreground">{notification.title}</p>
+                            <p className="font-semibold text-sm text-foreground truncate">{notification.title}</p>
                             {!notification.read && (
-                              <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
+                              <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
                             )}
                           </div>
-                          <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
+                          <p className="text-sm text-muted-foreground mb-2 leading-relaxed line-clamp-2">
                             {notification.message}
                           </p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full flex-shrink-0">
                               {getTimeAgo(notification.timestamp)}
                             </span>
                             {notification.action && (
@@ -171,7 +185,7 @@ const NotificationCenter = ({
                                   e.stopPropagation();
                                   notification.action?.onClick();
                                 }}
-                                className="text-xs h-6 px-2"
+                                className="text-xs h-6 px-2 flex-shrink-0"
                               >
                                 {notification.action.label}
                               </Button>

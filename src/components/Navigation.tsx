@@ -47,47 +47,55 @@ const Navigation = () => {
   };
   
   return (
-    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-semibold text-xl">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-primary/10">
-            <Sparkles className="h-4 w-4 text-primary" />
+        <Link to="/" className="flex items-center gap-3 font-bold text-xl group">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg group-hover:scale-110 transition-all duration-300">
+            <Sparkles className="h-6 w-6 text-white" />
           </span>
-          <span className="text-foreground">ResumeForge</span>
+          <span className="font-extrabold tracking-tight transition-colors duration-300">
+            <span className="palette-gradient-text"> Resume Forge</span>
+          </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-8">
           <Link
             to="/"
-            className={`text-sm font-medium transition-colors hover:text-foreground ${
-              location.pathname === "/" ? "text-foreground" : "text-muted-foreground"
+            className={`text-sm font-medium transition-all duration-300 hover:text-indigo-600 hover:scale-105 relative ${
+              location.pathname === "/" ? "text-indigo-600" : "text-gray-700"
             }`}
           >
             Home
+            {location.pathname === "/" && (
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+            )}
           </Link>
           <a
             href="#features"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm font-medium text-gray-700 transition-all duration-300 hover:text-indigo-600 hover:scale-105"
           >
             Features
           </a>
           <a
-            href="#faq"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            href="#integrations"
+            className="text-sm font-medium text-gray-700 transition-all duration-300 hover:text-indigo-600 hover:scale-105"
           >
-            FAQ
+            Integrations
           </a>
           <Link
             to="/builder"
-            className={`text-sm font-medium transition-colors hover:text-foreground ${
-              location.pathname === "/builder" ? "text-foreground" : "text-muted-foreground"
+            className={`text-sm font-medium transition-all duration-300 hover:text-indigo-600 hover:scale-105 relative ${
+              location.pathname === "/builder" ? "text-indigo-600" : "text-gray-700"
             }`}
           >
             Builder
+            {location.pathname === "/builder" && (
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+            )}
           </Link>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <NotificationCenter
             notifications={notifications}
             onMarkAsRead={handleMarkAsRead}
@@ -95,8 +103,8 @@ const Navigation = () => {
             onClearAll={handleClearAll}
           />
           <Link to="/builder">
-            <Button size="sm">
-              <FileText className="h-4 w-4 mr-2" />
+            <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-0">
+              <FileText className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
               Create Resume
             </Button>
           </Link>
